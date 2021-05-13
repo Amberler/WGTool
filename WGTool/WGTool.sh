@@ -1,6 +1,12 @@
 
 #!/bin/bash
 
+# 存储获取的配置信息
+conf='';
+
+# api
+# url=http://192.168.1.167:888/upload
+url=http://127.0.0.1:888/upload
 
 # 检测当前时钟，凌晨0点到3点不更新，给服务器节省资源
 checkHours(){
@@ -23,42 +29,32 @@ findConf(){
     path=$PWD
     echo "当前路径：$path"
     sleep 0.5
-    filename=$(ls $path|grep $time)
-    if [[ -z "$filename" ]]; then
+    filenameArr=($(ls $path|grep $time));
+    fileArrLength=${#filenameArr[@]}
+
+    if [[ fileArrLength -eq 0 ]]; then
         echo "未获取到当天的配置，\n请打开联通手机营业厅重新连接试试，请确认使用的是自动输出日志的版本"
         exit;
     else
-        echo "获取到的文件名：$filename"
+        echo "获取到${fileArrLength}配置，默认取第一个"
+        filename=${filenameArr[0]};
         conf=$(cat $filename|grep ^{)
         echo "获取到的沃游戏配置->$conf"
     fi
+}
+
+# 上传配置文件
+upload(){
+    # 组装curl命令
+    curl -H "Content-Type: application/json" -d "$conf" $url
 }
 
 main (){
     checkHours
     echo "准备查找配置了"
     findConf
+    upload
 }
 
 main
 
-
-# path=$1
-# echo "I am good -\"${path}\"- Script"
-# files=$(ls $path)
-# echo $files
-# for filename in $files
-# do
-#    echo $filename >> filename.txt
-# done
-
-
-# your_name="runoob"
-# # 使用双引号拼接
-# greeting="hello, "$path" !"
-# greeting_1="hello, ${your_name} !"
-# echo $greeting  $greeting_1
-# # 使用单引号拼接
-# greeting_2='hello, '$your_name' !'
-# greeting_3='hello, ${your_name} !'
-# echo $greeting_2  $greeting_3
