@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 
-import flask, json, os, time, qrcode, io
-import ImgUtil
+import flask, json, os, io
+import ImgUtil, DataUtil
 from flask import request
 
 
@@ -21,75 +21,54 @@ server = flask.Flask(__name__)
 def page_not_found(e):
     return {"404":"Not Found"}
 
-# @server.route('/login', methods=['get', 'post'])
-# def login():
-#     # 获取通过url请求传参的数据
-#     username = request.values.get('name')
-#     # 获取url请求传的密码，明文
-#     pwd = request.values.get('pwd')
-#     # 判断用户名、密码都不为空，如果不传用户名、密码则username和pwd为None
-#     if username and pwd:
-#         if username=='xiaoming' and pwd=='111':
-#             resu = {'code': 200, 'message': '登录成功'}
-#             return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
-#         else:
-#             resu = {'code': -1, 'message': '账号密码错误'}
-#             return json.dumps(resu, ensure_ascii=False)
-#     else:
-#         resu = {'code': 10001, 'message': '参数不能为空！'}
-#         return json.dumps(resu, ensure_ascii=False)
-
 @server.route('/upload', methods=['post'])
 def upload():
     # 获取通过url请求传参的数据
-    confStr = request.stream.read();
-    if len(confStr) > 0 :
-        print("获取到配置了");
-        handleConf(confStr);
-        return {"code":200,"msg":"提交成功"};
-    # 获取url请求传的密码，明文
-    return {"code":408,"msg":"参数不合法，请重新尝试获取"};
-    # pwd = request.values.get('pwd')
-    # # 判断用户名、密码都不为空，如果不传用户名、密码则username和pwd为None
-    # if username and pwd:
-    #     if username=='xiaoming' and pwd=='111':
-    #         resu = {'code': 200, 'message': '登录成功'}
-    #         return json.dumps(resu, ensure_ascii=False)  # 将字典转换为json串, json是字符串
-    #     else:
-    #         resu = {'code': -1, 'message': '账号密码错误'}
-    #         return json.dumps(resu, ensure_ascii=False)
-    # else:
-    #     resu = {'code': 10001, 'message': '参数不能为空！'}
-    #     return json.dumps(resu, ensure_ascii=False)
-
-def handleConf (conf):
-    confDic = json.loads(conf)
-    address = confDic["clientIp"];
-    dns = confDic["clientDns"];
-    privateKey = confDic["clientKey"];
-    allowedIPs = "0.0.0.0/0";
-    endpoint = confDic["serverIp"];
-    publicKey = confDic["serverKey"];
-
-    if len(address)>0 and len(dns)>0 and len(privateKey)>0 and len(endpoint)>0 and len(publicKey)>0 :
-        resConf = f'[Interface]\nAddress = {address}\nDNS = {dns}\nPrivateKey = {privateKey}\n[Peer]\nAllowedIPs = 0.0.0.0/0\nEndpoint = {endpoint}\nPublicKey = {publicKey}';
-        # 保存文件到本地
-        saveResConf(resConf);
+    confBytes = request.stream.read();
+    if len(confBytes) > 0 :
+        confStr = str(confBytes, encoding = "utf-8")
+        DataUtil.writeConf(confStr);
+        return {"code":200,"msg":"success"};
     else:
-        print("参数不正确");
+         # 获取url请求传的密码，明文
+        return {"code":408,"msg":"The parameter is not valid. Please try getting it again"};
 
-def saveResConf (res):
-    print(res)
-    timeStr = time.strftime("%Y%m%d-%H:%M:%S", time.localtime());
-    filePath = f'{localPath}/{timeStr}.txt'
-    # 生成二维码
-    img = qrcode.make(data=res)
-    # 将二维码保存为图片
-    tmpPath = "./test.png";
-    with open(tmpPath, 'wb') as f:
-        img.save(f)
-    # exit
-    ImgUtil.uploadImage(tmpPath);
+
+
+
+# def saveResConf (res):
+#     print(res)
+#     timeStr = time.strftime("%Y%m%d-%H:%M:%S", time.localtime());
+#     filePath = f'{localPath}/{timeStr}.txt'
+#     # 生成二维码
+#     img = qrcode.make(data=res)
+#     # 将二维码保存为图片
+#     tmpPath = "./test.png";
+#     with open(tmpPath, 'wb') as f:
+#         img.save(f)
+#     # exit
+#     ImgUtil.uploadImage(tmpPath);
+
+@server.route('/search', methods=['get'])
+def search():
+    print("准备查找数据了")
+    confsArr = DataUtil.searchConfs();
+
+    ##组装返回数据
+    resDic = {};
+    if len(confsArr) > 0:
+        ## 有数据
+        resDic["code"] = 200;
+        resDic["msg"] = "success";
+        resDic["confs"] = confsArr;
+    else:
+        ## 无数据
+        resDic["code"] = 200;
+        resDic["msg"] = "no data, please try later";
+    
+    res = json.dumps(resDic, separators=(',', ':'),ensure_ascii=False)
+    
+    return res;
 
  
 if __name__ == '__main__':

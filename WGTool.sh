@@ -45,6 +45,7 @@ findConf(){
 
 # 上传配置文件
 upload(){
+    echo "准备提交配置"
     # 组装curl命令
     curl -H "Content-Type: application/json" -d "$conf" $url
 }

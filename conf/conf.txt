@@ -1,0 +1,4 @@
+{"clientKey":"UPGZQPy34M6bk5Nbg+U+thspVY2G91BpSjHIoMxg2Uc=","clientIp":"10.21.2.46/32","serverKey":"IrFdOekR4uSQ34zKCqCWaZf4U7wy2rFySLuxsihbz2U=","serverIp":"140.207.47.100:11000","clientDns":"223.5.5.5"}    
+{"clientKey":"UPGZQPy34M6bk5Nbg+U+thspVY2G91BpSjHIoMxg2Uc=","clientIp":"10.21.2.46/32","serverKey":"IrFdOekR4uSQ34zKCqCWaZf4U7wy2rFySLuxsihbz2U=","serverIp":"140.207.47.100:11000","clientDns":"223.5.5.5"}    
+{"clientKey":"UPGZQPy34M6bk5Nbg+U+thspVY2G91BpSjHIoMxg2Uc=","clientIp":"10.21.2.46/32","serverKey":"IrFdOekR4uSQ34zKCqCWaZf4U7wy2rFySLuxsihbz2U=","serverIp":"140.207.47.100:11000","clientDns":"223.5.5.5"}    
+{"clientKey":"UPGZQPy34M6bk5Nbg+U+thspVY2G91BpSjHIoMxg2Uc=","clientIp":"10.21.2.46/32","serverKey":"IrFdOekR4uSQ34zKCqCWaZf4U7wy2rFySLuxsihbz2U=","serverIp":"140.207.47.100:11000","clientDns":"223.5.5.5"}    
