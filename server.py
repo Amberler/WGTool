@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*
 
 import flask, json, os, time, qrcode, io
-from flask import request
 import ImgUtil
+from flask import request
 
 
 localPath = "../conf/"
