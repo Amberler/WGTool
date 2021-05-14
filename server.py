@@ -27,27 +27,15 @@ def upload():
     confBytes = request.stream.read();
     if len(confBytes) > 0 :
         confStr = str(confBytes, encoding = "utf-8")
-        DataUtil.writeConf(confStr);
+        ## 获取到数据，准备写入本地
+        print(confStr);
+        DataUtil.writeConf(1,confStr);
         return {"code":200,"msg":"success"};
     else:
          # 获取url请求传的密码，明文
         return {"code":408,"msg":"The parameter is not valid. Please try getting it again"};
 
 
-
-
-# def saveResConf (res):
-#     print(res)
-#     timeStr = time.strftime("%Y%m%d-%H:%M:%S", time.localtime());
-#     filePath = f'{localPath}/{timeStr}.txt'
-#     # 生成二维码
-#     img = qrcode.make(data=res)
-#     # 将二维码保存为图片
-#     tmpPath = "./test.png";
-#     with open(tmpPath, 'wb') as f:
-#         img.save(f)
-#     # exit
-#     ImgUtil.uploadImage(tmpPath);
 
 @server.route('/search', methods=['get'])
 def search():
@@ -72,4 +60,4 @@ def search():
 
  
 if __name__ == '__main__':
-    server.run(debug=True, port=888, host='0.0.0.0')# 指定
+    server.run(debug=False, port=9099, host='0.0.0.0')# 指定

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 ## 将配置组装，转成二维码图片，再上传到图床，将返回的图片URL存起来
-import json,qrcode,time
+import json,qrcode,time,os
 import DataUtil
 import ImgUtil
 
@@ -47,7 +47,7 @@ def handleConf (conf):
 ## 组装好的WG配置，转成二维码，保存
 def createQR(conf):
     timeStr = time.strftime("%Y%m%d-%H:%M:%S", time.localtime());
-    qrPath = "./qr/"+timeStr+".png";
+    qrPath = "./"+timeStr+".png";
     # 生成二维码
     img = qrcode.make(data=conf)
     # 将二维码保存为图片
@@ -63,6 +63,11 @@ def updateQR():
         if len(qrURL) > 0:
             ## 上传成功，保存url到本地
             DataUtil.writeConf(2,qrURL);
+            if os.path.exists(qrPath):
+                os.remove(qrPath)
+    ## 删除本地生成的二维码图片
+
+
             
 
 start()

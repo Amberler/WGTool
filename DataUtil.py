@@ -17,7 +17,7 @@ def writeConf(num, conf):
 
 def searchConfs():
     print("工具类-查找数据");
-    file = open(confPath);
+    file = open(qrPath);
     confsArr=[];
     while 1:
         lines = file.readlines(20)
