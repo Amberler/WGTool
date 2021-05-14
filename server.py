@@ -40,7 +40,7 @@ def upload():
 @server.route('/search', methods=['get'])
 def search():
     print("准备查找数据了")
-    confsArr = DataUtil.searchConfs();
+    confsArr = DataUtil.searchConfs(2);
 
     ##组装返回数据
     resDic = {};

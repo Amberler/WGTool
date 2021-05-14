@@ -9,7 +9,7 @@ qrPathList = [];
 
 def start () :
     ## 获取至多个配置
-    confsArr = DataUtil.searchConfs();
+    confsArr = DataUtil.searchConfs(1);
     if len(confsArr) > 0:
         ## 有数据
         for conf in confsArr:
@@ -25,7 +25,15 @@ def start () :
 
 ## 组装WG配置
 def handleConf (conf):
+
+    print(type(conf));
+    print(conf);
+
     confDic = json.loads(conf);
+
+    print(type(confDic));
+    print(confDic);
+
     address = confDic["clientIp"];
     dns = confDic["clientDns"];
     privateKey = confDic["clientKey"];

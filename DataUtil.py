@@ -15,9 +15,10 @@ def writeConf(num, conf):
         f.write('\n') # 换行
     f.close;
 
-def searchConfs():
+def searchConfs(num):
     print("工具类-查找数据");
-    file = open(qrPath);
+    temPath = confPath if num == 1 else qrPath;
+    file = open(temPath);
     confsArr=[];
     while 1:
         lines = file.readlines(20)
