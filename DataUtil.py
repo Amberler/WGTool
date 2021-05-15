@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*
 import os,sys
 
+# 获取当前工作目录路径
+localPath=os.path.split(os.path.realpath(__file__))[0]
+
 # 处理之前的数据
-confPath="./conf/conf.txt"
+confPath=localPath+"/conf/conf.txt";
 # 处理之后的数据
-qrPath="./conf/QRUrl.txt"
+qrPath=localPath+"/conf/QRUrl.txt";
+
+
 
 
 def writeConf(num, conf):
@@ -38,8 +43,9 @@ def searchConfs(num):
 
 ## 删除方法
 def deleteFile(path):
-    if os.path.exists(qrPath):
-        os.remove(qrPath)
+    print(path)
+    if os.path.exists(path):
+        os.remove(path)
 
 def deleteConfs():
     if len(sys.argv) >= 2:
