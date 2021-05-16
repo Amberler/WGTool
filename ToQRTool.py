@@ -13,7 +13,6 @@ def start () :
     if len(confsArr) > 0:
         ## 有数据
         for conf in confsArr:
-            print(conf);
             ##json 转 字典，组装生成二维码
             handleConf(conf);
         ## 创建二维码结束，判断是否有结果，是否需要上传
@@ -25,15 +24,7 @@ def start () :
 
 ## 组装WG配置
 def handleConf (conf):
-
-    print(type(conf));
-    print(conf);
-
     confDic = json.loads(conf);
-
-    print(type(confDic));
-    print(confDic);
-
     address = confDic["clientIp"];
     dns = confDic["clientDns"];
     privateKey = confDic["clientKey"];
@@ -74,8 +65,6 @@ def updateQR():
             if os.path.exists(qrPath):
                 os.remove(qrPath)
     ## 删除本地生成的二维码图片
-
-
-            
+    
 
 start()
