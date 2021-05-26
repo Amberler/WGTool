@@ -77,12 +77,13 @@ def getConfig():
     ## 先下载配置文件到本地
     timeStr = time.strftime("%Y%m%d-%H:%M:%S", time.localtime());
     fileName = "wg-" + timeStr + ".conf";
+    ## 本地保存路径
+    filePath = localPath+"/"+fileName
     r = requests.get(config_url) 
-    with open(fileName,'wb') as f:
+    with open(filePath,'wb') as f:
         f.write(r.content)
     f.close
     ## 读取配置，转成二维码
-    filePath = localPath+"/"+fileName
     if os.path.exists(filePath):
         with open (
             os.path.join(os.path.dirname(os.path.dirname(__file__)), filePath), "r", encoding="utf-8"
