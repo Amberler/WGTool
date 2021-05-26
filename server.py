@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 
 import flask, json, os, io
-import ImgUtil, DataUtil
+import DataUtil
 from flask import request
 
 
