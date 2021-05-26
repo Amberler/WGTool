@@ -10,8 +10,6 @@ confPath=localPath+"/conf/conf.txt";
 qrPath=localPath+"/conf/QRUrl.txt";
 
 
-
-
 def writeConf(num, conf):
     print("准备写入数据了");
     print(conf);

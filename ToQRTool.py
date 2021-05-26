@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*
 ## 将配置组装，转成二维码图片，再上传到图床，将返回的图片URL存起来
-import json,qrcode,time,os
+import json,qrcode,time,os,requests
 import DataUtil
 import ImgUtil
+
+# 获取当前工作目录路径
+localPath=os.path.split(os.path.realpath(__file__))[0]
+
+# 妖友分享的配置
+config_url = "http://106.52.213.232:8080/wg.conf"
 
 ## 存放二维码图片的本地路径
 qrPathList = [];
@@ -65,6 +71,27 @@ def updateQR():
             if os.path.exists(qrPath):
                 os.remove(qrPath)
     ## 删除本地生成的二维码图片
-    
 
-start()
+## 下载网上的配置
+def getConfig():
+    ## 先下载配置文件到本地
+    timeStr = time.strftime("%Y%m%d-%H:%M:%S", time.localtime());
+    fileName = "wg-" + timeStr + ".conf";
+    r = requests.get(config_url) 
+    with open(fileName,'wb') as f:
+        f.write(r.content)
+    f.close
+    ## 读取配置，转成二维码
+    filePath = localPath+"/"+fileName
+    if os.path.exists(filePath):
+        with open (
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), filePath), "r", encoding="utf-8"
+        ) as f:
+            resConf = f.read();
+            createQR(resConf);
+            updateQR()
+        f.close
+        os.remove(filePath)
+
+# start()
+getConfig()
