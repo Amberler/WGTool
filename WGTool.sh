@@ -12,7 +12,7 @@ conf='';
 
 # api
 # url=http://192.168.1.167:888/update
-url=https://wg.late.run/upload
+url=https://wg.late.run/api/upload
 
 # 检查目录
 checkPath(){

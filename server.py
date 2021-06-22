@@ -21,7 +21,7 @@ server = flask.Flask(__name__)
 def page_not_found(e):
     return {"404":"Not Found"}
 
-@server.route('/upload', methods=['post'])
+@server.route('/api/upload', methods=['post'])
 def upload():
     # 获取通过url请求传参的数据
     confBytes = request.stream.read();
@@ -37,7 +37,7 @@ def upload():
 
 
 
-@server.route('/search', methods=['get'])
+@server.route('/api/search', methods=['get'])
 def search():
     print("准备查找数据了")
     confsArr = DataUtil.searchConfs(2);
