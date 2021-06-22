@@ -5,9 +5,9 @@ import os,sys
 localPath=os.path.split(os.path.realpath(__file__))[0]
 
 # 处理之前的数据
-confPath=localPath+"/conf/conf.txt";
+confPath = localPath+"/conf/conf.txt";
 # 处理之后的数据
-qrPath=localPath+"/conf/QRUrl.txt";
+qrPath = localPath+"/conf/QRUrl.txt";
 
 
 def writeConf(num, conf):

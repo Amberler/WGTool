@@ -2,11 +2,13 @@
 
 import flask, json, os, io
 import DataUtil
-from flask import request
+from flask import request, send_from_directory
 
+# 获取当前工作目录路径
+localPath = os.path.split(os.path.realpath(__file__))[0]
 
-localPath = "../conf/"
-
+# 供下载的配置文件路径
+downloadPath = localPath + "/conf/download/"
  
 # '''
 # flask： web框架，通过flask提供的装饰器@server.route()将普通函数转换为服务
@@ -21,6 +23,7 @@ server = flask.Flask(__name__)
 def page_not_found(e):
     return {"404":"Not Found"}
 
+## 上传配置文件
 @server.route('/api/upload', methods=['post'])
 def upload():
     # 获取通过url请求传参的数据
@@ -36,7 +39,7 @@ def upload():
         return {"code":408,"msg":"The parameter is not valid. Please try getting it again"};
 
 
-
+## 请求当前配置数据
 @server.route('/api/search', methods=['get'])
 def search():
     print("准备查找数据了")
@@ -57,6 +60,21 @@ def search():
     res = json.dumps(resDic, separators=(',', ':'),ensure_ascii=False)
     
     return res;
+
+
+## 下载配置文件
+@server.route('/api/download', methods=['get'])
+def download():
+    for _, _, files in os.walk(downloadPath):
+        fileCount = len(files);
+        ##数组排序
+        files.sort()
+        if fileCount > 0 :
+            ##获取最后一个配置
+            return send_from_directory(downloadPath,files[-1],as_attachment=True);
+        else:
+            return {"code": 408, "msg": "The parameter is not valid. Please try getting it again"};
+    return {"code": 408, "msg": "The parameter is not valid. Please try getting it again"};
 
  
 if __name__ == '__main__':
