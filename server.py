@@ -3,8 +3,11 @@
 import flask
 import json
 import os
-import time
 from flask import request, send_from_directory
+import time
+import datetime
+import pytz
+
 
 import DataUtil
 
@@ -76,15 +79,20 @@ def search():
 @server.route('/api/download', methods=['get'])
 def download():
     # 获取今天周几
-    date = time.localtime()
-    day = time.strftime("%w", date)
+    # date = time.localtime()
+    # day = time.strftime("%w", date)
+    # year = datetime.datetime.now()
+    # week_num = datetime.date(year.year, year.month, year.day).strftime("%w")
+
+    pytz.timezone('Asia/Shanghai')  # 东八区
+    week_num = datetime.datetime.fromtimestamp(int(time.time()), pytz.timezone('Asia/Shanghai')).strftime("%w")
     for _, _, files in os.walk(downloadPath):
         fileCount = len(files)
         # 数组排序
         files.sort()
         if fileCount > 0:
             # 取对应周几的配置
-            return send_from_directory(downloadPath, files[int(day) - 1], as_attachment=True)
+            return send_from_directory(downloadPath, files[int(week_num) - 1], as_attachment=True)
             # ##获取最后一个配置
             # return send_from_directory(downloadPath,files[-1],as_attachment=True);
         else:
